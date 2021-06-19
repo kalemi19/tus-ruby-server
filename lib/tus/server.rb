@@ -171,14 +171,14 @@ module Tus
 
           if info.offset == info.length # last chunk
             storage.finalize_file(uid, info.to_h) if storage.respond_to?(:finalize_file)
-
+            storage.update_info(uid, info.to_h)
             after_finish(uid, info)
+            response.headers.update(info.headers)
+          else
+            storage.update_info(uid, info.to_h)
+            response.headers.update(info.headers)
+            no_content!
           end
-
-          storage.update_info(uid, info.to_h)
-          response.headers.update(info.headers)
-
-          no_content!
         end
 
         # GET /{uid}
