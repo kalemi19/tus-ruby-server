@@ -91,7 +91,7 @@ module Tus
             "Upload-Expires"      => (Time.now + expiration_time).httpdate,
           )
 
-          before_create(uid, info)
+          info = before_create(uid, info)
 
           if info.final?
             length = validate_partial_uploads!(info.partial_uploads)
